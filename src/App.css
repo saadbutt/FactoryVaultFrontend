@@ -28,6 +28,49 @@
   color: #61dafb;
 }
 
+
+button {
+  font-size: 1.2em;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+.big-input {
+  font-size: 1.2em;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+button.connect {
+  background-color: #e50914;
+  color: white;
+}
+
+button.create {
+  background-color: #00a8ff;
+  color: white;
+}
+
+button.deposit,
+button.withdraw {
+  background-color: #f5f5f5;
+  color: #282c34;
+}
+
+button.deposit:hover,
+button.withdraw:hover {
+  background-color: #282c34;
+  color: white;
+}
+
+p {
+  margin: 10px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
