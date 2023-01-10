@@ -39,8 +39,8 @@ function App() {
 
   const connectToMetaMask = async () => {
     try {
-
       const currentProvider = await detectCurrentProvider();
+
       if (currentProvider) {
 
         if (currentProvider !== window.ethereum) {
@@ -50,7 +50,11 @@ function App() {
         }
 
         const web3 = new Web3(currentProvider);
+        const network = await web3.eth.net.getNetworkType();
+        console.log("network:", network);
+        await window.ethereum.enable();
         const userAccount = await web3.eth.getAccounts();
+
         const chainId = await web3.eth.getChainId();
         const account = userAccount[0];
         let ethBalance = await web3.eth.getBalance(account); // Get wallet balance
@@ -99,7 +103,7 @@ function App() {
           });
         } else {
           alert(
-            'You donot have Vault Yet!'
+            'Please create Vault'
           );
         }
        });
