@@ -342,7 +342,7 @@ function App() {
             </label>
             <button onClick={withdraw}>Withdraw</button>
             <label>
-              <p class="big-input"> Enter Vault Address
+              <p class="big-input"> Enter Fund Collector Address
                 <input type="text" class="big-input" value={fundCollectorChangeAddress} onChange={(e) => { setFundCollectorChangeAddress(e.target.value) }} />
                 <button onClick={vaultAddressChanger}>Set Fund Collector</button>
               </p>
