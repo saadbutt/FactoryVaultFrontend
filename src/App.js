@@ -8,14 +8,18 @@ import { useAlert } from 'react-alert'
 function App() {
   const [balance, setBalance] = useState(0);
   const [vaultAddress, setVaultAddress] = useState("");
-  const [depositValue,setDepositValue] = useState("");
+  const [depositValue, setDepositValue] = useState("");
+  const [addressValue, setAddressValue] = useState('')
+  const [fundCollectorChangeAddress, setFundCollectorChangeAddress] = useState('')
+  const [fundCollectorAddress, setFundCollectorAddress] = useState('')
 
-  const contractAbi = JSON.parse('[{"inputs":[{"internalType":"address","name":"_USDC","type":"address"},{"internalType":"address","name":"_feeRecipient","type":"address"},{"internalType":"uint256","name":"_fee","type":"uint256"},{"internalType":"address","name":"_withdrawAdmin","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"contractAddresses","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_fundCollector","type":"address"}],"name":"createVault","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getFee","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getFeeRecipient","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getWithdrawAdminAddr","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"newFee","type":"uint256"}],"name":"setFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newFeeRecipient","type":"address"}],"name":"setFeeRecipient","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newWithdrawAdmin","type":"address"}],"name":"setWithdrawAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalVaults","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"userContract","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}]'); 
+  const contractAbi = JSON.parse('[{"inputs":[{"internalType":"address","name":"_USDC","type":"address"},{"internalType":"address","name":"_feeRecipient","type":"address"},{"internalType":"uint256","name":"_fee","type":"uint256"},{"internalType":"address","name":"_withdrawAdmin","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"contractAddresses","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_fundCollector","type":"address"}],"name":"createVault","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getFee","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getFeeRecipient","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getWithdrawAdminAddr","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"newFee","type":"uint256"}],"name":"setFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newFeeRecipient","type":"address"}],"name":"setFeeRecipient","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newWithdrawAdmin","type":"address"}],"name":"setWithdrawAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalVaults","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"userContract","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}]');
   const vaultABI = JSON.parse('[{"inputs":[{"internalType":"address","name":"_USDC","type":"address"},{"internalType":"address","name":"_factory","type":"address"},{"internalType":"address","name":"_withdrawAdmin","type":"address"},{"internalType":"address","name":"_fundCollector","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[],"name":"Factory","outputs":[{"internalType":"contractIFactory","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"USDC","outputs":[{"internalType":"contractIERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"adminWithdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getFundCollector","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getWithdrawAdminAddr","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newFundCollector","type":"address"}],"name":"setFundCollector","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"vaultBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}]');
   const erc20ABI = JSON.parse('[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"guy","type":"address"},{"name":"wad","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"src","type":"address"},{"name":"dst","type":"address"},{"name":"wad","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"wad","type":"uint256"}],"name":"withdraw","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"dst","type":"address"},{"name":"wad","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"deposit","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"src","type":"address"},{"indexed":true,"name":"guy","type":"address"},{"indexed":false,"name":"wad","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"src","type":"address"},{"indexed":true,"name":"dst","type":"address"},{"indexed":false,"name":"wad","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"dst","type":"address"},{"indexed":false,"name":"wad","type":"uint256"}],"name":"Deposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"src","type":"address"},{"indexed":false,"name":"wad","type":"uint256"}],"name":"Withdrawal","type":"event"}]');
-  
+
   var factoryAddress = "0xBF59261EB9Cca4D7087B2BA54769CdDdD01F6C74";
   var erc20Addr = "0xF018fBc71f5Af7671403b14a720F01C35D997e1b" // usd address
+  var factoryVaultAddress = '0x1950E9f5878ec9e0E3001725Ac3bFf5b23a5dFc4'
 
   var globalchainId;
 
@@ -33,7 +37,7 @@ function App() {
     }
     return provider;
   };
-  
+
   const handleInputChange = async (event) => {
     const inputValue = event.target.value;
     console.log("depositValue:", inputValue);
@@ -63,7 +67,7 @@ function App() {
         console.log("chainId:", chainId);
         if (chainId == 5) {
           globalchainId = chainId;
-          factoryAddress = "0xBF59261EB9Cca4D7087B2BA54769CdDdD01F6C74";
+          factoryAddress = "0x1950E9f5878ec9e0E3001725Ac3bFf5b23a5dFc4";
           erc20Addr = "0xF018fBc71f5Af7671403b14a720F01C35D997e1b"; // usd address
         } else if (chainId == 80001) {
           globalchainId = chainId;
@@ -90,20 +94,20 @@ function App() {
 
     } catch (err) {
       console.log(
-        'There was an error fetching your accounts. Make sure your Ethereum client is configured correctly.',err 
+        'There was an error fetching your accounts. Make sure your Ethereum client is configured correctly.', err
       );
     }
   };
 
   const checkVault = async (signer, web3) => {
     try {
-        const factoryContract = new web3.eth.Contract(
-          contractAbi, // Replace with the contract ABI
-          factoryAddress, // Replace with the contract address
-        );
+      const factoryContract = new web3.eth.Contract(
+        contractAbi, // Replace with the contract ABI
+        factoryAddress, // Replace with the contract address
+      );
 
-        // Call the "createVault" function of the contract
-        const tx = factoryContract.methods.userContract(signer).call().then((contractAddr) => {
+      // Call the "createVault" function of the contract
+      const tx = factoryContract.methods.userContract(signer).call().then((contractAddr) => {
         console.log("userContracts:", contractAddr)
         if (contractAddr != '0x0000000000000000000000000000000000000000') {
           setVaultAddress(contractAddr);
@@ -124,11 +128,11 @@ function App() {
             'Please create Vault'
           );
         }
-       });
-    } catch(err) {
+      });
+    } catch (err) {
       console.log("error:", err);
     }
-    
+
   }
   // const connectToMetaMask = async () => {
   //   try {
@@ -165,14 +169,70 @@ function App() {
 
     // // Call the "deposit" function of the contract, passing in an amount to deposit
     // Call the "createVault" function of the contract
-    const tx = vaultContract.methods.createVault().send({from: account}).then((response) => {
+    const tx = vaultContract.methods.createVault('0x76b61cD85EbCCC903c5E7EaC7d27B2c14809C6e7').send({ from: account }).then((response) => {
       console.log("response:", response);
 
     });
-
     // // Update the state with the new vault address
     // setVaultAddress(newVaultAddress);
   };
+
+  const vaultAddressChanger = async () => {
+    // Create a new vault contract instance
+    const currentProvider = await detectCurrentProvider();
+
+    const web3 = new Web3(currentProvider);
+    const userAccount = await web3.eth.getAccounts();
+    const account = userAccount[0];
+
+    // // Ensure that the user is connected to MetaMask and has a vault
+    if (!account) {
+      alert("Please connect to MetaMask first");
+      return;
+    }
+
+    // // Create a new instance of the vault contract
+    const vaultContract = new web3.eth.Contract(
+      vaultABI,
+      vaultAddress
+    );
+
+    // // Call the "deposit" function of the contract, passing in an amount to deposit
+    // Call the "createVault" function of the contract
+    const tx = vaultContract.methods.setFundCollector(fundCollectorChangeAddress).send({ from: account }).then((response) => {
+      console.log("response:", response);
+      setFundCollectorChangeAddress('')
+
+    });
+  }
+  const fundAddressGetter = async () => {
+    // Create a new vault contract instance
+    const currentProvider = await detectCurrentProvider();
+
+    const web3 = new Web3(currentProvider);
+    const userAccount = await web3.eth.getAccounts();
+    const account = userAccount[0];
+
+    // // Ensure that the user is connected to MetaMask and has a vault
+    if (!account) {
+      alert("Please connect to MetaMask first");
+      return;
+    }
+
+    // // Create a new instance of the vault contract
+    const vaultContract = new web3.eth.Contract(
+      vaultABI,
+      vaultAddress
+    );
+
+    // // Call the "deposit" function of the contract, passing in an amount to deposit
+    // Call the "createVault" function of the contract
+    const tx = vaultContract.methods.getFundCollector().call().then((response) => {
+
+      setFundCollectorAddress(response);
+    });
+
+  }
 
 
   const approve = async () => {
@@ -196,7 +256,7 @@ function App() {
 
     // Call the "deposit" function of the contract, passing in an amount to deposit
     // Call the "createVault" function of the contract
-    const tx = erc20Contract.methods.approve(vaultAddress, "1000000000000000000000000").send({from: account}).then((response) => {
+    const tx = erc20Contract.methods.approve(vaultAddress, "1000000000000000000000000").send({ from: account }).then((response) => {
       console.log("response:", response);
     });
 
@@ -230,7 +290,7 @@ function App() {
 
     // // Call the "deposit" function of the contract, passing in an amount to deposit
     // Call the "createVault" function of the contract
-    const tx = vaultContract.methods.deposit(depositValue).send({from: account}).then((response) => {
+    const tx = vaultContract.methods.deposit(depositValue).send({ from: account }).then((response) => {
       console.log("response:", response);
     });
 
@@ -257,7 +317,7 @@ function App() {
 
     // // Call the "deposit" function of the contract, passing in an amount to deposit
     // Call the "createVault" function of the contract
-    const tx = vaultContract.methods.withdraw(balance).send({from: account}).then((response) => {
+    const tx = vaultContract.methods.withdraw(balance).send({ from: account }).then((response) => {
       console.log("response:", response);
     });
   };
@@ -275,33 +335,49 @@ function App() {
             <p>Your balance: {balance} ETH</p>
             <button onClick={approve}>Approve</button>
             <label>
-            <p class="big-input"> Set Deposit Value:
-              <input type="text"  class="big-input"  value={depositValue} onChange={handleInputChange} />
-              <button onClick={deposit}>Deposit</button>
-            </p>
-            </label>            
+              <p class="big-input"> Set Deposit Value:
+                <input type="text" class="big-input" value={depositValue} onChange={handleInputChange} />
+                <button onClick={deposit}>Deposit</button>
+              </p>
+            </label>
             <button onClick={withdraw}>Withdraw</button>
+            <label>
+              <p class="big-input"> Enter Vault Address
+                <input type="text" class="big-input" value={fundCollectorChangeAddress} onChange={(e) => { setFundCollectorChangeAddress(e.target.value) }} />
+                <button onClick={vaultAddressChanger}>Set Fund Collector</button>
+              </p>
+            </label>
+            <button onClick={fundAddressGetter}>Get Fund Collector</button>
+            <p>Your fund Collector address: {fundCollectorAddress}</p>
+
           </>
         ) : (
-          <button onClick={createVault}>Create Vault</button>
+          <>
+           <label>
+              <p class="big-input"> Enter Vault Address
+                <input type="text" class="big-input" value={addressValue} onChange={(e) => { setAddressValue(e.target.value) }} />
+                <button onClick={createVault}>Create Vault</button>
+              </p>
+            </label>
+          </>
         )}
       </header>
     </div>
   );
 
-// return (
-//     <div>
-//       <button onClick={connectToMetaMask}>Connect to MetaMask</button>
-//       { (
-//         <>
-//           <button onClick={createVault}>Create Vault</button>
-//           <button onClick={deposit}>Deposit</button>
-//           <button onClick={withdraw}>Withdraw</button>
-//           <div>Balance: {balance}</div>
-//         </>
-//       )}
-//     </div>
-//   );
+  // return (
+  //     <div>
+  //       <button onClick={connectToMetaMask}>Connect to MetaMask</button>
+  //       { (
+  //         <>
+  //           <button onClick={createVault}>Create Vault</button>
+  //           <button onClick={deposit}>Deposit</button>
+  //           <button onClick={withdraw}>Withdraw</button>
+  //           <div>Balance: {balance}</div>
+  //         </>
+  //       )}
+  //     </div>
+  //   );
 }
 
 export default App;
